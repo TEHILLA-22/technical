@@ -1,0 +1,1182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LFC Rumurolu Technical Unit</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: linear-gradient(135deg, #0f0f23 0%, #1a1a3e 100%);
+            color: #ffffff;
+            overflow-x: hidden;
+        }
+
+        /* Navigation */
+        .navbar {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            padding: 1rem 2rem;
+            background: rgba(15, 15, 35, 0.95);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            z-index: 1000;
+            transition: all 0.3s ease;
+        }
+
+        .nav-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, #00d4ff, #ff00ff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+
+        .nav-links a {
+            color: #ffffff;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .nav-links a:hover {
+            color: #00d4ff;
+            transform: translateY(-2px);
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: linear-gradient(135deg, #00d4ff, #ff00ff);
+            transition: width 0.3s ease;
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        /* Hero Section */
+        .hero {
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-bg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at 50% 50%, rgba(0, 212, 255, 0.1) 0%, transparent 50%);
+            animation: pulse 4s ease-in-out infinite alternate;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); opacity: 0.5; }
+            100% { transform: scale(1.1); opacity: 0.8; }
+        }
+
+        .hero-content {
+            text-align: center;
+            z-index: 2;
+            max-width: 800px;
+            padding: 0 2rem;
+        }
+
+        .hero-title {
+            font-size: 4rem;
+            font-weight: 800;
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, #ffffff, #00d4ff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: fadeInUp 1s ease-out;
+        }
+
+        .hero-subtitle {
+            font-size: 1.5rem;
+            margin-bottom: 2rem;
+            color: rgba(255, 255, 255, 0.8);
+            animation: fadeInUp 1s ease-out 0.2s both;
+        }
+
+        .hero-description {
+            font-size: 1.1rem;
+            margin-bottom: 3rem;
+            color: rgba(255, 255, 255, 0.7);
+            line-height: 1.6;
+            animation: fadeInUp 1s ease-out 0.4s both;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .cta-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+            animation: fadeInUp 1s ease-out 0.6s both;
+        }
+
+        .btn {
+            padding: 1rem 2rem;
+            border: none;
+            border-radius: 50px;
+            font-weight: 600;
+            text-decoration: none;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #00d4ff, #ff00ff);
+            color: white;
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: #00d4ff;
+            border: 2px solid #00d4ff;
+        }
+
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(0, 212, 255, 0.3);
+        }
+
+        /* Sections */
+        .section {
+            padding: 5rem 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .section-title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            text-align: center;
+            margin-bottom: 3rem;
+            background: linear-gradient(135deg, #ffffff, #00d4ff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        /* About Section */
+        .about-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+            align-items: center;
+        }
+
+        .about-text {
+            font-size: 1.1rem;
+            line-height: 1.8;
+            color: rgba(255, 255, 255, 0.8);
+        }
+
+        .about-features {
+            display: grid;
+            gap: 1rem;
+        }
+
+        .feature-card {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 1.5rem;
+            border-radius: 15px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-5px);
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .feature-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: #00d4ff;
+            margin-bottom: 0.5rem;
+        }
+
+        /* Leaders Section */
+        .leaders-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .leader-card {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 2rem;
+            border-radius: 20px;
+            text-align: center;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .leader-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(0, 212, 255, 0.1), rgba(255, 0, 255, 0.1));
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .leader-card:hover::before {
+            opacity: 1;
+        }
+
+        .leader-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(0, 212, 255, 0.2);
+        }
+
+        .leader-avatar {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #00d4ff, #ff00ff);
+            margin: 0 auto 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            font-weight: 700;
+            color: white;
+            position: relative;
+            z-index: 2;
+        }
+
+        .leader-name {
+            font-size: 1.3rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: #ffffff;
+            position: relative;
+            z-index: 2;
+        }
+
+        .leader-role {
+            color: #00d4ff;
+            font-weight: 500;
+            position: relative;
+            z-index: 2;
+        }
+
+        /* Footer */
+        .footer {
+            background: rgba(0, 0, 0, 0.3);
+            padding: 3rem 2rem 1rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+        }
+
+        .footer-section h3 {
+            color: #00d4ff;
+            margin-bottom: 1rem;
+        }
+
+        .footer-section a {
+            color: rgba(255, 255, 255, 0.7);
+            text-decoration: none;
+            display: block;
+            margin-bottom: 0.5rem;
+            transition: color 0.3s ease;
+        }
+
+        .footer-section a:hover {
+            color: #00d4ff;
+        }
+
+        .footer-bottom {
+            text-align: center;
+            margin-top: 2rem;
+            padding-top: 2rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            color: #00d4ff;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hero-title {
+                font-size: 2.5rem;
+            }
+            .hero-subtitle {
+                font-size: 1.2rem;
+            }
+            .nav-links {
+                display: none;
+            }
+            .about-content {
+                grid-template-columns: 1fr;
+            }
+            .cta-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+        }
+
+        /* Page content containers */
+        .page-content {
+            display: none;
+            min-height: 100vh;
+            padding-top: 80px;
+        }
+
+        .page-content.active {
+            display: block;
+        }
+
+        /* Form Styles */
+        .form-container {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 2rem;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: #00d4ff;
+            font-weight: 500;
+        }
+
+        .form-group input,
+        .form-group textarea,
+        .form-group select {
+            width: 100%;
+            padding: 1rem;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 10px;
+            background: rgba(0, 0, 0, 0.3);
+            color: white;
+            font-size: 1rem;
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: #00d4ff;
+            box-shadow: 0 0 0 2px rgba(0, 212, 255, 0.2);
+        }
+
+        /* Contact Cards */
+        .contact-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .contact-card {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 2rem;
+            border-radius: 15px;
+            text-align: center;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .contact-card:hover {
+            transform: translateY(-5px);
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .contact-icon {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #00d4ff, #ff00ff);
+            margin: 0 auto 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+        }
+
+        /* Reviews Display */
+        .reviews-container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .review-card {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 2rem;
+            border-radius: 15px;
+            margin-bottom: 2rem;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .review-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .review-name {
+            font-weight: 600;
+            color: #00d4ff;
+        }
+
+        .review-rating {
+            color: #ffd700;
+        }
+
+        /* Admin Panel Styles */
+        .admin-header {
+            background: rgba(0, 0, 0, 0.5);
+            padding: 1rem 2rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            margin-bottom: 2rem;
+        }
+
+        .admin-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .stat-card {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 1.5rem;
+            border-radius: 10px;
+            text-align: center;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .stat-number {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #00d4ff;
+            display: block;
+        }
+
+        .floating-particles {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            pointer-events: none;
+        }
+
+        .particle {
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            background: #00d4ff;
+            border-radius: 50%;
+            animation: float 6s ease-in-out infinite;
+            opacity: 0.6;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-20px) rotate(180deg); }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="logo">LFC Technical</div>
+            <ul class="nav-links">
+                <li><a href="#" onclick="showPage('home')">Home</a></li>
+                <li><a href="#" onclick="showPage('about')">About</a></li>
+                <li><a href="#" onclick="showPage('leaders')">Leaders</a></li>
+                <li><a href="#" onclick="showPage('contact')">Contact</a></li>
+                <li><a href="#" onclick="showPage('reviews')">Reviews</a></li>
+                <li><a href="#" onclick="showPage('join')">Join Us</a></li>
+                <li><a href="#" onclick="showPage('admin')" style="color: #ff00ff;">Admin</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Home Page -->
+    <div id="home" class="page-content active">
+        <section class="hero">
+            <div class="floating-particles">
+                <div class="particle" style="left: 10%; animation-delay: 0s;"></div>
+                <div class="particle" style="left: 20%; animation-delay: 1s;"></div>
+                <div class="particle" style="left: 30%; animation-delay: 2s;"></div>
+                <div class="particle" style="left: 40%; animation-delay: 3s;"></div>
+                <div class="particle" style="left: 50%; animation-delay: 4s;"></div>
+                <div class="particle" style="left: 60%; animation-delay: 5s;"></div>
+                <div class="particle" style="left: 70%; animation-delay: 1.5s;"></div>
+                <div class="particle" style="left: 80%; animation-delay: 2.5s;"></div>
+                <div class="particle" style="left: 90%; animation-delay: 3.5s;"></div>
+            </div>
+            <div class="hero-bg"></div>
+            <div class="hero-content">
+                <h1 class="hero-title">LFC Rumurolu Technical Unit</h1>
+                <p class="hero-subtitle">Excellence in Technical Innovation</p>
+                <p class="hero-description">
+                    We are a cutting-edge technical unit dedicated to pushing the boundaries of technology and innovation. 
+                    Our team of skilled professionals works tirelessly to deliver world-class solutions and drive technological advancement 
+                    in our community and beyond.
+                </p>
+                <div class="cta-buttons">
+                    <a href="#" class="btn btn-primary" onclick="showPage('join')">Join Our Team</a>
+                    <a href="#" class="btn btn-secondary" onclick="showPage('about')">Learn More</a>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- About Page -->
+    <div id="about" class="page-content">
+        <section class="section">
+            <h2 class="section-title">About Our Technical Unit</h2>
+            <div class="about-content">
+                <div class="about-text">
+                    <p>The LFC Rumurolu Technical Unit stands as a beacon of technological excellence, bringing together brilliant minds to solve complex challenges and drive innovation. Our commitment to technical mastery and collaborative excellence has positioned us as leaders in the field.</p>
+                    <br>
+                    <p>We specialize in cutting-edge development, system architecture, and innovative problem-solving. Our team combines deep technical expertise with creative thinking to deliver solutions that make a real difference.</p>
+                    <br>
+                    <p>Founded on principles of excellence, integrity, and continuous learning, we foster an environment where technical professionals can thrive and contribute to groundbreaking projects.</p>
+                </div>
+                <div class="about-features">
+                    <div class="feature-card">
+                        <div class="feature-title">🚀 Innovation First</div>
+                        <p>We prioritize cutting-edge solutions and embrace emerging technologies to stay ahead of the curve.</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-title">🔧 Technical Excellence</div>
+                        <p>Our team maintains the highest standards of technical proficiency and code quality in all projects.</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-title">🤝 Collaborative Spirit</div>
+                        <p>We believe in the power of teamwork and knowledge sharing to achieve extraordinary results.</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-title">📚 Continuous Learning</div>
+                        <p>We foster an environment of continuous growth and skill development for all team members.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- Leaders Page -->
+    <div id="leaders" class="page-content">
+        <section class="section">
+            <h2 class="section-title">Meet Our Leaders</h2>
+            <div class="leaders-grid">
+                <div class="leader-card">
+                    <div class="leader-avatar">MI</div>
+                    <h3 class="leader-name">Mr. Iken</h3>
+                    <p class="leader-role">Technical Director</p>
+                    <p style="margin-top: 1rem; color: rgba(255,255,255,0.8);">
+                        Leading our technical vision with years of experience in system architecture and innovation. 
+                        Passionate about mentoring the next generation of technical talent.
+                    </p>
+                </div>
+                <div class="leader-card">
+                    <div class="leader-avatar">MT</div>
+                    <h3 class="leader-name">Mr. Tosin</h3>
+                    <p class="leader-role">Assistant Leader</p>
+                    <p style="margin-top: 1rem; color: rgba(255,255,255,0.8);">
+                        Supporting our technical operations with expertise in project management and team coordination. 
+                        Ensures seamless execution of our technical initiatives.
+                    </p>
+                </div>
+                <div class="leader-card">
+                    <div class="leader-avatar">MA</div>
+                    <h3 class="leader-name">Mr. Ayo</h3>
+                    <p class="leader-role">GB Leader</p>
+                    <p style="margin-top: 1rem; color: rgba(255,255,255,0.8);">
+                        Driving our grassroots initiatives and community engagement. 
+                        Committed to expanding our technical impact at the foundational level.
+                    </p>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- Contact Page -->
+    <div id="contact" class="page-content">
+        <section class="section">
+            <h2 class="section-title">Contact Us</h2>
+            <div class="contact-grid">
+                <div class="contact-card">
+                    <div class="contact-icon">📧</div>
+                    <h3>Email</h3>
+                    <p>technical.lfcrumurolu@gmial.com</p>
+                    <p>info@lfcrumurolu.com</p>
+                </div>
+                <div class="contact-card">
+                    <div class="contact-icon">📱</div>
+                    <h3>Phone</h3>
+                    <p>+234 800 TECH UNIT</p>
+                    <p>+234 900 LFC TECH</p>
+                </div>
+                <div class="contact-card">
+                    <div class="contact-icon">📍</div>
+                    <h3>Location</h3>
+                    <p>Rumurolu Opp Genesis</p>
+                    <p>20 Rumougba, Woji PortHarcourt</p>
+                </div>
+                <div class="contact-card">
+                    <div class="contact-icon">🌐</div>
+                    <h3>Social Media</h3>
+                    <p>@LFCTechnical</p>
+                    <p>LFC Technical Unit</p>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- Reviews Page -->
+    <div id="reviews" class="page-content">
+        <section class="section">
+            <h2 class="section-title">What People Say</h2>
+            <div class="reviews-container">
+                <div class="form-container" style="margin-bottom: 3rem;">
+                    <h3 style="color: #00d4ff; margin-bottom: 1rem;">Leave a Review</h3>
+                    <form id="reviewForm">
+                        <div class="form-group">
+                            <label for="reviewName">Your Name</label>
+                            <input type="text" id="reviewName" name="name" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="reviewRating">Rating</label>
+                            <select id="reviewRating" name="rating" required>
+                                <option value="">Select Rating</option>
+                                <option value="5">⭐⭐⭐⭐⭐ Excellent</option>
+                                <option value="4">⭐⭐⭐⭐ Very Good</option>
+                                <option value="3">⭐⭐⭐ Good</option>
+                                <option value="2">⭐⭐ Fair</option>
+                                <option value="1">⭐ Poor</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="reviewText">Your Review</label>
+                            <textarea id="reviewText" name="review" rows="4" placeholder="Share your experience with our technical unit..." required></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Submit Review</button>
+                    </form>
+                </div>
+                <div id="reviewsList">
+                    <!-- Reviews will be displayed here -->
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- Join Us Page -->
+    <div id="join" class="page-content">
+        <section class="section">
+            <h2 class="section-title">Join Our Technical Team</h2>
+            <div class="form-container">
+                <form id="joinForm">
+                    <div class="form-group">
+                        <label for="fullName">Full Name</label>
+                        <input type="text" id="fullName" name="fullName" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="email">Email Address</label>
+                        <input type="email" id="email" name="email" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="phone">Phone Number</label>
+                        <input type="tel" id="phone" name="phone" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="experience">Experience Level</label>
+                        <select id="experience" name="experience" required>
+                            <option value="">Select Experience Level</option>
+                            <option value="beginner">Beginner (0-1 years)</option>
+                            <option value="intermediate">Intermediate (2-4 years)</option>
+                            <option value="advanced">Advanced (5+ years)</option>
+                            <option value="expert">Expert (10+ years)</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="skills">Technical Skills</label>
+                        <textarea id="skills" name="skills" rows="3" placeholder="List your technical skills and areas of expertise..." required></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="motivation">Why do you want to join?</label>
+                        <textarea id="motivation" name="motivation" rows="4" placeholder="Tell us why you want to be part of our technical unit..." required></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Submit Application</button>
+                </form>
+            </div>
+        </section>
+    </div>
+
+    <!-- Admin Page -->
+    <div id="admin" class="page-content">
+        <div class="admin-header">
+            <h2 style="color: #ff00ff;">Admin Dashboard</h2>
+            <p>Real-time data management for LFC Technical Unit</p>
+        </div>
+        <section class="section">
+            <div class="admin-stats">
+                <div class="stat-card">
+                    <span class="stat-number" id="totalReviews">0</span>
+                    <span>Total Reviews</span>
+                </div>
+                <div class="stat-card">
+                    <span class="stat-number" id="totalApplications">0</span>
+                    <span>Applications</span>
+                </div>
+                <div class="stat-card">
+                    <span class="stat-number" id="avgRating">0.0</span>
+                    <span>Average Rating</span>
+                </div>
+                <div class="stat-card">
+                    <span class="stat-number" id="todayActivity">0</span>
+                    <span>Today's Activity</span>
+                </div>
+            </div>
+            
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 2rem;">
+                <div>
+                    <h3 style="color: #00d4ff; margin-bottom: 1rem;">Recent Reviews</h3>
+                    <div id="adminReviews" style="max-height: 400px; overflow-y: auto;">
+                        <!-- Admin reviews will be displayed here -->
+                    </div>
+                </div>
+                <div>
+                    <h3 style="color: #00d4ff; margin-bottom: 1rem;">Recent Applications</h3>
+                    <div id="adminApplications" style="max-height: 400px; overflow-y: auto;">
+                        <!-- Admin applications will be displayed here -->
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>Quick Links</h3>
+                <a href="#" onclick="showPage('home')">Home</a>
+                <a href="#" onclick="showPage('about')">About Us</a>
+                <a href="#" onclick="showPage('leaders')">Our Leaders</a>
+                <a href="#" onclick="showPage('contact')">Contact</a>
+            </div>
+            <div class="footer-section">
+                <h3>Get Involved</h3>
+                <a href="#" onclick="showPage('join')">Join Our Team</a>
+                <a href="#" onclick="showPage('reviews')">Leave a Review</a>
+                <a href="#" onclick="showPage('contact')">Partnership Opportunities</a>
+            </div>
+            <div class="footer-section">
+                <h3>Technical Excellence</h3>
+                <a href="#">Innovation Projects</a>
+                <a href="#">Technical Resources</a>
+                <a href="#">Training Programs</a>
+                <a href="#">Community Outreach</a>
+            </div>
+            <div class="footer-section">
+                <h3>Connect With Us</h3>
+                <a href="#">technical@lfcrumurolu.com</a>
+                <a href="#">+234 800 TECH UNIT</a>
+                <a href="#">@LFCTechnical</a>
+                <a href="#">LinkedIn</a>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2025 LFC Rumurolu Technical Unit. All rights reserved.</p>
+            <p>Powered by <strong>King of Programming Tehilla</strong></p>
+        </div>
+    </footer>
+
+    <script>
+        // Global data storage (in-memory database simulation)
+        let reviews = [
+            {
+                id: 1,
+                name: "Tehilla Odjoji",
+                rating: 5,
+                review: "Exceptional technical expertise and innovative solutions. The team delivered beyond our expectations!",
+                date: new Date().toLocaleDateString()
+            },
+            {
+                id: 2,
+                name: "Victor Chima",
+                rating: 5,
+                review: "Professional, efficient, and highly skilled. Great communication throughout the project.",
+                date: new Date().toLocaleDateString()
+            },
+            {
+                id: 3,
+                name: "Tosin",
+                rating: 4,
+                review: "Impressive technical capabilities and attention to detail. Would definitely recommend!",
+                date: new Date().toLocaleDateString()
+            }
+        ];
+
+        let applications = [
+            {
+                id: 1,
+                fullName: "Tehilla Odjoji",
+                email: "odjojitehilla@gmail.com",
+                phone: "+234 801 234 5678",
+                experience: "intermediate",
+                skills: "JavaScript, Python, React, Node.js, Database Management",
+                motivation: "Passionate about contributing to innovative technical solutions and growing with a dynamic team.",
+                date: new Date().toLocaleDateString()
+            },
+            {
+                id: 2,
+                fullName: "Ayo-moana Thomison",
+                email: "thomison.ayo@gmail.com",
+                phone: "+234 802 345 6789",
+                experience: "advanced",
+                skills: "Machine Learning, Data Science",
+                motivation: "Excited to apply my expertise in AI and machine learning to drive technical innovation.",
+                date: new Date().toLocaleDateString()
+            }
+        ];
+
+        // Page navigation
+        function showPage(pageId) {
+            // Hide all pages
+            const pages = document.querySelectorAll('.page-content');
+            pages.forEach(page => page.classList.remove('active'));
+            
+            // Show selected page
+            document.getElementById(pageId).classList.add('active');
+            
+            // Update URL hash
+            window.location.hash = pageId;
+            
+            // Scroll to top
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+            
+            // Load page-specific content
+            if (pageId === 'reviews') {
+                displayReviews();
+            } else if (pageId === 'admin') {
+                loadAdminData();
+            }
+        }
+
+        // Display reviews
+        function displayReviews() {
+            const reviewsList = document.getElementById('reviewsList');
+            reviewsList.innerHTML = '';
+            
+            if (reviews.length === 0) {
+                reviewsList.innerHTML = '<p style="text-align: center; color: rgba(255,255,255,0.6);">No reviews yet. Be the first to leave a review!</p>';
+                return;
+            }
+            
+            reviews.forEach(review => {
+                const reviewCard = document.createElement('div');
+                reviewCard.className = 'review-card';
+                reviewCard.innerHTML = `
+                    <div class="review-header">
+                        <span class="review-name">${review.name}</span>
+                        <span class="review-rating">${'⭐'.repeat(review.rating)}</span>
+                    </div>
+                    <p style="margin-bottom: 0.5rem;">${review.review}</p>
+                    <small style="color: rgba(255,255,255,0.5);">Posted on ${review.date}</small>
+                `;
+                reviewsList.appendChild(reviewCard);
+            });
+        }
+
+        // Load admin data
+        function loadAdminData() {
+            // Update statistics
+            document.getElementById('totalReviews').textContent = reviews.length;
+            document.getElementById('totalApplications').textContent = applications.length;
+            
+            // Calculate average rating
+            const avgRating = reviews.length > 0 ? 
+                (reviews.reduce((sum, review) => sum + review.rating, 0) / reviews.length).toFixed(1) : 
+                '0.0';
+            document.getElementById('avgRating').textContent = avgRating;
+            
+            // Today's activity (simulated)
+            document.getElementById('todayActivity').textContent = Math.floor(Math.random() * 10) + 1;
+            
+            // Display admin reviews
+            const adminReviews = document.getElementById('adminReviews');
+            adminReviews.innerHTML = '';
+            reviews.slice(-5).forEach(review => {
+                const reviewElement = document.createElement('div');
+                reviewElement.className = 'review-card';
+                reviewElement.style.marginBottom = '1rem';
+                reviewElement.innerHTML = `
+                    <div class="review-header">
+                        <span class="review-name">${review.name}</span>
+                        <span class="review-rating">${'⭐'.repeat(review.rating)}</span>
+                    </div>
+                    <p style="font-size: 0.9rem; margin-bottom: 0.5rem;">${review.review}</p>
+                    <small style="color: rgba(255,255,255,0.5);">${review.date}</small>
+                `;
+                adminReviews.appendChild(reviewElement);
+            });
+            
+            // Display admin applications
+            const adminApplications = document.getElementById('adminApplications');
+            adminApplications.innerHTML = '';
+            applications.slice(-5).forEach(app => {
+                const appElement = document.createElement('div');
+                appElement.className = 'review-card';
+                appElement.style.marginBottom = '1rem';
+                appElement.innerHTML = `
+                    <div class="review-header">
+                        <span class="review-name">${app.fullName}</span>
+                        <span style="color: #00d4ff; font-size: 0.9rem;">${app.experience}</span>
+                    </div>
+                    <p style="font-size: 0.9rem; margin-bottom: 0.5rem;"><strong>Email:</strong> ${app.email}</p>
+                    <p style="font-size: 0.9rem; margin-bottom: 0.5rem;"><strong>Skills:</strong> ${app.skills}</p>
+                    <small style="color: rgba(255,255,255,0.5);">${app.date}</small>
+                `;
+                adminApplications.appendChild(appElement);
+            });
+        }
+
+        // Handle review form submission
+        document.getElementById('reviewForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const formData = new FormData(e.target);
+            const newReview = {
+                id: reviews.length + 1,
+                name: formData.get('name'),
+                rating: parseInt(formData.get('rating')),
+                review: formData.get('review'),
+                date: new Date().toLocaleDateString()
+            };
+            
+            reviews.unshift(newReview); // Add to beginning of array
+            displayReviews();
+            
+            // Reset form
+            e.target.reset();
+            
+            // Show success message
+            showNotification('Review submitted successfully! Thank you for your feedback.', 'success');
+        });
+
+        // Handle join form submission
+        document.getElementById('joinForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const formData = new FormData(e.target);
+            const newApplication = {
+                id: applications.length + 1,
+                fullName: formData.get('fullName'),
+                email: formData.get('email'),
+                phone: formData.get('phone'),
+                experience: formData.get('experience'),
+                skills: formData.get('skills'),
+                motivation: formData.get('motivation'),
+                date: new Date().toLocaleDateString()
+            };
+            
+            applications.unshift(newApplication); // Add to beginning of array
+            
+            // Reset form
+            e.target.reset();
+            
+            // Show success message
+            showNotification('Application submitted successfully! We will review your application and get back to you soon.', 'success');
+        });
+
+        // Notification system
+        function showNotification(message, type = 'info') {
+            const notification = document.createElement('div');
+            notification.style.cssText = `
+                position: fixed;
+                top: 100px;
+                right: 20px;
+                background: ${type === 'success' ? 'linear-gradient(135deg, #00d4ff, #00ff88)' : 'linear-gradient(135deg, #ff6b6b, #ff8e8e)'};
+                color: white;
+                padding: 1rem 2rem;
+                border-radius: 10px;
+                box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+                z-index: 10000;
+                animation: slideIn 0.3s ease-out;
+                max-width: 300px;
+                font-weight: 500;
+            `;
+            notification.textContent = message;
+            
+            document.body.appendChild(notification);
+            
+            setTimeout(() => {
+                notification.style.animation = 'slideOut 0.3s ease-in forwards';
+                setTimeout(() => {
+                    document.body.removeChild(notification);
+                }, 300);
+            }, 4000);
+        }
+
+        // Add notification animations
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes slideIn {
+                from {
+                    transform: translateX(100%);
+                    opacity: 0;
+                }
+                to {
+                    transform: translateX(0);
+                    opacity: 1;
+                }
+            }
+            
+            @keyframes slideOut {
+                from {
+                    transform: translateX(0);
+                    opacity: 1;
+                }
+                to {
+                    transform: translateX(100%);
+                    opacity: 0;
+                }
+            }
+        `;
+        document.head.appendChild(style);
+
+        // Smooth scrolling for navigation
+        document.addEventListener('DOMContentLoaded', function() {
+            // Check for hash in URL
+            const hash = window.location.hash.substring(1);
+            if (hash && document.getElementById(hash)) {
+                showPage(hash);
+            }
+            
+            // Initialize particles animation
+            createFloatingParticles();
+            
+            // Add scroll effect to navbar
+            let lastScrollTop = 0;
+            window.addEventListener('scroll', function() {
+                const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+                const navbar = document.querySelector('.navbar');
+                
+                if (scrollTop > lastScrollTop) {
+                    navbar.style.transform = 'translateY(-100%)';
+                } else {
+                    navbar.style.transform = 'translateY(0)';
+                }
+                
+                lastScrollTop = scrollTop;
+            });
+        });
+
+        // Create floating particles
+        function createFloatingParticles() {
+            const container = document.querySelector('.floating-particles');
+            if (!container) return;
+            
+            // Create additional particles
+            for (let i = 0; i < 15; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'particle';
+                particle.style.left = Math.random() * 100 + '%';
+                particle.style.top = Math.random() * 100 + '%';
+                particle.style.animationDelay = Math.random() * 6 + 's';
+                particle.style.animationDuration = (Math.random() * 4 + 4) + 's';
+                container.appendChild(particle);
+            }
+        }
+
+        // Add interactive hover effects
+        document.addEventListener('mousemove', function(e) {
+            const cards = document.querySelectorAll('.leader-card, .feature-card, .contact-card');
+            cards.forEach(card => {
+                const rect = card.getBoundingClientRect();
+                const x = e.clientX - rect.left;
+                const y = e.clientY - rect.top;
+                
+                if (x >= 0 && x <= rect.width && y >= 0 && y <= rect.height) {
+                    const centerX = rect.width / 2;
+                    const centerY = rect.height / 2;
+                    const rotateX = (y - centerY) / 10;
+                    const rotateY = (centerX - x) / 10;
+                    
+                    card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateZ(10px)`;
+                } else {
+                    card.style.transform = '';
+                }
+            });
+        });
+
+        // Initialize page
+        displayReviews();
+    </script>
+</body>
+</html>
